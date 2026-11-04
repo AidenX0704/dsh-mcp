@@ -1,0 +1,102 @@
+name: Bug report
+description: Something in MCP Center (panel, marketplace, /mcp command or mcp_manager tool) does not work as described.
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please **redact secrets** before submitting: MCP Center masks
+        API keys and header values in the UI, but logs, screenshots and `state.json` copies
+        can still contain them.
+
+        For a security vulnerability, do not use this form — open a private advisory at
+        https://github.com/AidenX0704/dsh-mcp/security/advisories/new instead.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong, in one or two sentences.
+      placeholder: Adding the demo server succeeds, but its tools never appear in the model's tool list.
+    validations:
+      required: true
+
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DeepSeek Harness version
+      description: Plugins page about panel, or `dsh --version`.
+      placeholder: 0.2.0-rc
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: dsh-mcp-center version
+      description: Plugins page, or the `version` field of the installed `package.json`.
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: OS and Node.js version
+      description: e.g. Windows 11 24H2 with Node.js 22.17.0 — `node --version`.
+      placeholder: Windows 11 24H2, Node.js 22.17.0
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: install-method
+    attributes:
+      label: How is the plugin installed?
+      description: Pick every one that applies.
+      options:
+        - label: Plugins page (installed from a URL)
+        - label: "`plugin_manager` tool (`install_bundle`)"
+        - label: Pinned tag
+        - label: Local path (`link:` install of a checkout)
+        - label: npm package
+        - label: Tarball (`*.tgz`)
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Include the server entry (transport, command or URL), its scope and invocation mode, and the tab or command you used.
+      placeholder: |
+        1. Open MCP → Marketplace → quick add "Local demo server"
+        2. Set scope to workspace, invocation mode to auto
+        3. Start a new session and ask the model for its tools
+        4. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-actual
+    attributes:
+      label: Expected vs actual behaviour
+      placeholder: |
+        Expected: mcp__demo__* tools appear in the session.
+        Actual: they appear only after a Host restart.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Host log excerpt
+      description: "MCP Center writes Host log lines prefixed with `[dsh-mcp-center]`. Paste only the relevant lines."
+      render: text
+      placeholder: "[dsh-mcp-center] reconcile demo: …"
+
+  - type: checkboxes
+    id: redaction
+    attributes:
+      label: Confirmation
+      options:
+        - label: I removed or redacted every secret (API keys, tokens, header values, `state.json` contents) from this report.
+          required: true

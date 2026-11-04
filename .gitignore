@@ -1,0 +1,31 @@
+# Node / runtime
+node_modules/
+npm-debug.log*
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Package artifacts
+*.tgz
+coverage/
+
+# Editors
+.idea/
+.vscode/
+# …but keep shared, non-personal editor hints if you add them:
+# !.vscode/extensions.json
+
+# Local scratch material that must never be published
+.scratch/
+_verify/
+shots/
+ufim/
+assets/
+out/
+.tmp/
+*-test-data/
+
+# Root-level screenshot dumps from manual QA (icon.svg is kept on purpose)
+/*.png

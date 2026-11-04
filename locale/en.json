@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "MCP Center",
+    "description": "Browse a bundled MCP marketplace, add servers by JSON import or manual setup, scope them per workspace or session, and choose automatic or slash-command invocation."
+  }
+}

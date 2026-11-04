@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/AidenX0704/dsh-mcp#readme
+    about: Install, configuration, the panel, the /mcp command and mcp_manager are documented here.
+  - name: Report a security vulnerability
+    url: https://github.com/AidenX0704/dsh-mcp/security/advisories/new
+    about: Please report vulnerabilities privately — never in a public issue. See SECURITY.md for the threat model.

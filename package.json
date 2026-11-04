@@ -1,0 +1,90 @@
+{
+  "name": "dsh-mcp-center",
+  "version": "0.1.0",
+  "description": "MCP Center for DeepSeek Harness: browse a built-in MCP marketplace, add servers by JSON import or a manual form, scope them per workspace or session, and choose automatic or /command invocation. · DeepSeek Harness 的 MCP 管理中心：内置市场、JSON 导入或手动添加、按范围生效、自动调用或斜杠命令手动调用。",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek-harness-plugin",
+    "mcp",
+    "model-context-protocol",
+    "mcp-client",
+    "mcp-marketplace",
+    "plugin-manager",
+    "cordis"
+  ],
+  "homepage": "https://github.com/AidenX0704/dsh-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AidenX0704/dsh-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AidenX0704/dsh-mcp/issues"
+  },
+  "author": "AidenX0704",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "icon": "icon.svg",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./data/marketplace.json": "./data/marketplace.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "dsh.plugin.json",
+    "icon.svg",
+    "data/marketplace.json",
+    "data/MARKETPLACE-SPEC.md",
+    "demo/demo-server.mjs",
+    "locale/en.json",
+    "locale/zh.json",
+    "docs/*.md",
+    "README.md",
+    "README.zh.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22",
+    "dsh": ">=0.2.0-rc"
+  },
+  "scripts": {
+    "test": "node test/run.mjs",
+    "test:host": "node test/host-harness.mjs",
+    "test:client": "node test/client-smoke.mjs",
+    "test:demo": "node demo/demo-server.mjs --selftest",
+    "test:e2e": "node test/e2e-http.mjs",
+    "e2e": "node test/e2e-http.mjs",
+    "demo": "node demo/demo-server.mjs",
+    "prepack": "node test/run.mjs",
+    "version": "node scripts/sync-version.mjs && git add dsh.plugin.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-renderer"
+      ]
+    }
+  }
+}

@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (Node ${{ matrix.node }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node: [22, 24]
+        include:
+          # The plugin is developed on Windows; keep exactly one cheap extra
+          # combination so path and EOL bugs still show up.
+          - os: windows-latest
+            node: 22
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # No `cache:` input on purpose. This package has no dependencies and no
+      # committed lockfile, so there is nothing to cache and nothing to `npm ci`.
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # The offline suites: Host half, Client half, demo server self-test and the
+      # MCP stdio probe. Plain `node`, no install step before it.
+      - name: Run the offline suites
+        run: npm test
+
+  package:
+    name: Package contents
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Build the real tarball and read it back with `tar`: this asserts that
+      # everything the plugin needs at runtime is actually shipped, so a `files`
+      # edit in package.json (or a stray .gitignore rule) cannot silently produce
+      # a broken release. `--ignore-scripts` skips the `prepack` test run, which
+      # the `test` job has already done.
+      - name: Verify the tarball contents
+        shell: bash
+        run: |
+          npm pack --ignore-scripts
+          tar -tzf dsh-mcp-center-*.tgz > files.txt
+          missing=0
+          for required in \
+            index.js \
+            client.js \
+            cordis.patch.yml \
+            data/marketplace.json \
+            demo/demo-server.mjs \
+            locale/zh.json \
+            LICENSE \
+            README.md
+          do
+            if ! grep -qx "package/$required" files.txt; then
+              echo "::error::tarball is missing $required"
+              missing=1
+            fi
+          done
+          echo "tarball entries: $(wc -l < files.txt)"
+          exit $missing

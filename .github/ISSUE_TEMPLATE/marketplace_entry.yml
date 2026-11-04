@@ -1,0 +1,90 @@
+name: Marketplace entry
+description: Propose a new MCP server for the curated Marketplace tab.
+title: "[marketplace] "
+labels: [marketplace]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. The catalog is curated, not a link dump: entries must be
+        real, currently working, and documented by their vendor. Read
+        `data/MARKETPLACE-SPEC.md` before filling this in — it defines every field and the
+        accuracy rules a pull request has to satisfy.
+
+  - type: input
+    id: server-name
+    attributes:
+      label: Server name
+      description: The canonical name, plus the id you would use in the catalog (`[a-z0-9-]`, also becomes the MCP serverName).
+      placeholder: "Filesystem / filesystem"
+    validations:
+      required: true
+
+  - type: input
+    id: upstream
+    attributes:
+      label: Upstream repository or documentation URL
+      description: The source a reviewer can check the command against.
+      placeholder: https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem
+    validations:
+      required: true
+
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport
+      options:
+        - stdio (spawns a local command)
+        - streamable-http (remote URL)
+    validations:
+      required: true
+
+  - type: textarea
+    id: launch
+    attributes:
+      label: Install command or URL
+      description: The exact `command` + `args` (stdio) or `url` (http), copied from the vendor's current docs. Mark any value that must be supplied by the user with `${KEY}`.
+      placeholder: |
+        command: npx
+        args: ["-y", "@modelcontextprotocol/server-filesystem", "${DIR}"]
+        fields: DIR (allowed directory, required, not secret)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: auth
+    attributes:
+      label: Authentication requirement
+      options:
+        - none
+        - API key or token (stored in env / headers)
+        - OAuth (browser flow on first use)
+        - other / unclear
+    validations:
+      required: true
+
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Node / Python / uv / Docker / network / OS requirements, and anything the user must already have (an account, a database, a wallet of API credits).
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why is it worth curating?
+      description: What does it add that the existing catalog entries do not, and why should a typical Harness user care?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmed
+    attributes:
+      label: Confirmation
+      options:
+        - label: I ran this command or endpoint myself and it works today.
+          required: true
+        - label: The command, package name and URL above are copied from the vendor's current documentation, not from memory.
+          required: true

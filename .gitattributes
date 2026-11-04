@@ -1,0 +1,13 @@
+# Normalize every text file to LF in the repo, whatever the platform.
+* text=auto eol=lf
+
+# Binary payloads: never diff, never convert.
+*.png binary
+*.tgz binary
+
+# SVG is text (it is hand-edited here).
+*.svg text
+
+# Linguist hints: docs and screenshots are documentation, not source.
+docs/** linguist-documentation
+*.mjs linguist-language=JavaScript

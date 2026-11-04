@@ -1,0 +1,1114 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-03",
+  "categories": [
+    {
+      "id": "official",
+      "title": {
+        "zh": "官方参考",
+        "en": "Official reference"
+      }
+    },
+    {
+      "id": "docs",
+      "title": {
+        "zh": "文档与知识",
+        "en": "Docs & knowledge"
+      }
+    },
+    {
+      "id": "devtools",
+      "title": {
+        "zh": "开发与浏览器",
+        "en": "Dev & browser"
+      }
+    },
+    {
+      "id": "vendor",
+      "title": {
+        "zh": "平台集成",
+        "en": "Platform integrations"
+      }
+    },
+    {
+      "id": "data",
+      "title": {
+        "zh": "数据库",
+        "en": "Databases"
+      }
+    },
+    {
+      "id": "search",
+      "title": {
+        "zh": "搜索",
+        "en": "Search"
+      }
+    },
+    {
+      "id": "infra",
+      "title": {
+        "zh": "基础设施",
+        "en": "Infrastructure"
+      }
+    }
+  ],
+  "servers": [
+    {
+      "id": "filesystem",
+      "title": {
+        "zh": "文件系统",
+        "en": "Filesystem"
+      },
+      "summary": {
+        "zh": "在受控目录内读写、搜索和整理文件，是本地项目协作最常用的基础服务器。",
+        "en": "Read, write, search, and organize files inside allowed directories — the workhorse local server."
+      },
+      "category": "official",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${DIR}"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [
+        {
+          "key": "DIR",
+          "label": {
+            "zh": "允许访问的目录",
+            "en": "Allowed directory"
+          },
+          "hint": {
+            "zh": "服务器只能访问这个目录及其子目录；需要更多目录时可在配置里追加参数。",
+            "en": "The server can only reach this directory and everything below it; add more paths in the config if needed."
+          },
+          "placeholder": "C:\\Users\\me\\projects",
+          "secret": false,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 24 或更高版本",
+            "en": "Requires Node.js 24 or later"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "tags": [
+        "files",
+        "local",
+        "official"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "只会访问命令行传入的目录；该服务器能修改文件，请授予尽量窄的目录。",
+        "en": "Only the directories passed on the command line are reachable. It can modify files, so grant the narrowest directory that works."
+      }
+    },
+    {
+      "id": "git",
+      "title": {
+        "zh": "Git 仓库",
+        "en": "Git"
+      },
+      "summary": {
+        "zh": "查看状态、差异、日志和分支，并在本地仓库中提交改动。",
+        "en": "Inspect status, diffs, logs, and branches, and commit changes in a local repository."
+      },
+      "category": "official",
+      "transport": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "${REPO}"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [
+        {
+          "key": "REPO",
+          "label": {
+            "zh": "Git 仓库路径",
+            "en": "Git repository path"
+          },
+          "hint": {
+            "zh": "本地仓库路径，服务器会被限制在这个仓库内。",
+            "en": "Path to a local repository; the server is confined to this repository."
+          },
+          "placeholder": "C:\\Users\\me\\projects\\my-repo",
+          "secret": false,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "uv",
+          "hard": true,
+          "detail": {
+            "zh": "需要已安装 uv（uvx 会自动准备 Python 环境）",
+            "en": "Requires uv installed (uvx provisions Python automatically)"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/modelcontextprotocol/servers/tree/main/src/git",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "tags": [
+        "git",
+        "vcs",
+        "local"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "官方 Python 实现，通过 uvx 运行；--repository 是它唯一的隔离手段，处理不可信内容时务必设置。",
+        "en": "Official Python implementation run through uvx; --repository is its only confinement, so set it whenever prompts or content are untrusted."
+      }
+    },
+    {
+      "id": "fetch",
+      "title": {
+        "zh": "网页抓取",
+        "en": "Fetch"
+      },
+      "summary": {
+        "zh": "抓取网页并转换成适合模型阅读的 Markdown，省去手工复制正文。",
+        "en": "Fetch a web page and convert it to model-friendly Markdown instead of copying text by hand."
+      },
+      "category": "official",
+      "transport": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "url": null,
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "uv",
+          "hard": true,
+          "detail": {
+            "zh": "需要已安装 uv（uvx 会自动准备 Python 环境）",
+            "en": "Requires uv installed (uvx provisions Python automatically)"
+          }
+        },
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "需要访问外网",
+            "en": "Requires outbound internet access"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "tags": [
+        "web",
+        "markdown",
+        "network"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "默认拒绝私有、回环等非公网地址；需要抓取内网页面时加 --allow-private-ips。Windows 下保留 PYTHONIOENCODING=utf-8 可避免编码超时。",
+        "en": "Refuses private, loopback, and other non-public addresses by default; add --allow-private-ips to fetch intranet pages. Keeping PYTHONIOENCODING=utf-8 on Windows avoids encoding-related timeouts."
+      }
+    },
+    {
+      "id": "memory",
+      "title": {
+        "zh": "知识图谱记忆",
+        "en": "Memory"
+      },
+      "summary": {
+        "zh": "用本地知识图谱跨会话记住实体、关系和观察，让助手越用越了解你的项目。",
+        "en": "Persist entities, relations, and observations across sessions in a local knowledge graph."
+      },
+      "category": "official",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "url": null,
+      "env": {
+        "MEMORY_FILE_PATH": "${MEMORY_FILE_PATH}"
+      },
+      "headers": {},
+      "fields": [
+        {
+          "key": "MEMORY_FILE_PATH",
+          "label": {
+            "zh": "记忆文件路径",
+            "en": "Memory file path"
+          },
+          "hint": {
+            "zh": "知识图谱保存为 JSONL 文件，建议放在固定目录，方便备份和跨客户端共享。",
+            "en": "The graph is stored as a JSONL file; keep it in a stable location so it is easy to back up and share across clients."
+          },
+          "placeholder": "C:\\Users\\me\\.dsh\\memory.jsonl",
+          "secret": false,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 24 或更高版本",
+            "en": "Requires Node.js 24 or later"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "tags": [
+        "memory",
+        "knowledge-graph",
+        "local"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "不设置 MEMORY_FILE_PATH 时默认写到服务器目录下的 memory.jsonl；多个客户端共用一个文件时靠文件锁串行写入。",
+        "en": "Without MEMORY_FILE_PATH it writes memory.jsonl next to the server; sharing one file between clients serializes writes with a lock file."
+      }
+    },
+    {
+      "id": "sequential-thinking",
+      "title": {
+        "zh": "逐步思考",
+        "en": "Sequential thinking"
+      },
+      "summary": {
+        "zh": "把复杂问题拆成可修订、可分支的思考步骤，适合规划和排障。",
+        "en": "Break a complex problem into revisable, branchable reasoning steps for planning and debugging."
+      },
+      "category": "official",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 24 或更高版本",
+            "en": "Requires Node.js 24 or later"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "tags": [
+        "reasoning",
+        "planning",
+        "official"
+      ],
+      "verifiedAt": "2026-11-03"
+    },
+    {
+      "id": "time",
+      "title": {
+        "zh": "时间与时区",
+        "en": "Time"
+      },
+      "summary": {
+        "zh": "查询当前时间，并在 IANA 时区之间做换算，避免模型算错时差。",
+        "en": "Get the current time and convert between IANA time zones so the model stops guessing offsets."
+      },
+      "category": "official",
+      "transport": "stdio",
+      "command": "uvx",
+      "args": [
+        "mcp-server-time"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "uv",
+          "hard": true,
+          "detail": {
+            "zh": "需要已安装 uv（uvx 会自动准备 Python 环境）",
+            "en": "Requires uv installed (uvx provisions Python automatically)"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/modelcontextprotocol/servers/tree/main/src/time",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "tags": [
+        "time",
+        "timezone",
+        "utility"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "默认使用系统时区，可用 --local-timezone 覆盖；Docker 方式需要设置 LOCAL_TIMEZONE。",
+        "en": "Uses the system time zone by default; override with --local-timezone (the Docker image needs LOCAL_TIMEZONE)."
+      }
+    },
+    {
+      "id": "everything",
+      "title": {
+        "zh": "全能测试服务器",
+        "en": "Everything"
+      },
+      "summary": {
+        "zh": "官方参考/测试服务器，同时提供工具、资源和提示，适合验证客户端的 MCP 支持程度。",
+        "en": "The official reference/test server with tools, resources, and prompts for exercising a client's MCP support."
+      },
+      "category": "official",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-everything"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 24 或更高版本",
+            "en": "Requires Node.js 24 or later"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/modelcontextprotocol/servers/tree/main/src/everything",
+      "homepage": "https://github.com/modelcontextprotocol/servers",
+      "tags": [
+        "test",
+        "reference",
+        "official"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "仅用于试用和调试，不建议作为日常工具集；加 streamableHttp 子命令可启动 HTTP 模式。",
+        "en": "For experimentation and debugging only, not a daily toolset; the streamableHttp subcommand starts an HTTP mode."
+      }
+    },
+    {
+      "id": "context7",
+      "title": {
+        "zh": "Context7 文档",
+        "en": "Context7"
+      },
+      "summary": {
+        "zh": "按库名和版本拉取最新的官方文档与代码示例，减少过时 API 造成的幻觉。",
+        "en": "Pull current, version-specific library docs and code examples to avoid stale-API hallucinations."
+      },
+      "category": "docs",
+      "transport": "streamable-http",
+      "command": null,
+      "args": [],
+      "url": "https://mcp.context7.com/mcp",
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "需要访问 context7.com",
+            "en": "Requires access to context7.com"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/upstash/context7",
+      "homepage": "https://context7.com",
+      "tags": [
+        "docs",
+        "libraries",
+        "remote"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "无需密钥即可使用；在 context7.com 获取免费 API Key 后，用 Authorization: Bearer <key> 请求头可提高速率限制。",
+        "en": "Works without a key; a free API key from context7.com sent as the Authorization: Bearer <key> header raises rate limits."
+      }
+    },
+    {
+      "id": "deepwiki",
+      "title": {
+        "zh": "DeepWiki 仓库问答",
+        "en": "DeepWiki"
+      },
+      "summary": {
+        "zh": "免费读取公开 GitHub 仓库的 DeepWiki 文档结构，并基于仓库内容回答问题。",
+        "en": "Read DeepWiki documentation for public GitHub repositories and ask repository-grounded questions."
+      },
+      "category": "docs",
+      "transport": "streamable-http",
+      "command": null,
+      "args": [],
+      "url": "https://mcp.deepwiki.com/mcp",
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "需要访问 deepwiki.com",
+            "en": "Requires access to deepwiki.com"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://docs.devin.ai/work-with-devin/deepwiki-mcp",
+      "homepage": "https://deepwiki.com",
+      "tags": [
+        "docs",
+        "github",
+        "remote"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "只覆盖公开仓库，无需认证；私有仓库需要 Devin 账号和 Devin MCP。",
+        "en": "Public repositories only and no authentication; private repositories need a Devin account and the Devin MCP server."
+      }
+    },
+    {
+      "id": "playwright",
+      "title": {
+        "zh": "Playwright 浏览器",
+        "en": "Playwright"
+      },
+      "summary": {
+        "zh": "通过可访问性快照驱动真实浏览器：导航、点击、填表、截图和网络检查。",
+        "en": "Drive a real browser through accessibility snapshots: navigate, click, fill, screenshot, and inspect network traffic."
+      },
+      "category": "devtools",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 18 或更高版本",
+            "en": "Requires Node.js 18 or later"
+          }
+        },
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "浏览外部页面时需要外网",
+            "en": "Outbound network is needed to browse external pages"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/microsoft/playwright-mcp",
+      "homepage": "https://playwright.dev",
+      "tags": [
+        "browser",
+        "automation",
+        "testing"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "默认有头模式启动；加 --headless 可无头运行，用 --browser chrome/firefox/webkit 切换内核。",
+        "en": "Starts headed by default; add --headless for headless runs and --browser chrome/firefox/webkit to pick an engine."
+      }
+    },
+    {
+      "id": "chrome-devtools",
+      "title": {
+        "zh": "Chrome DevTools",
+        "en": "Chrome DevTools"
+      },
+      "summary": {
+        "zh": "用 Chrome DevTools 做性能追踪、网络与控制台调试，以及可靠的页面自动化。",
+        "en": "Performance traces, network and console debugging, and reliable automation via Chrome DevTools."
+      },
+      "category": "devtools",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js LTS（20.19+、22.12+ 或 23+）",
+            "en": "Requires a Node.js LTS release (20.19+, 22.12+, or 23+)"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "homepage": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "tags": [
+        "browser",
+        "debugging",
+        "performance"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "需要本机安装稳定版 Chrome；使用性能工具时可能把 trace URL 发给 Google CrUX，可用 --no-performance-crux 关闭。",
+        "en": "Needs a locally installed stable Chrome; performance tools may send trace URLs to Google CrUX, which --no-performance-crux disables."
+      }
+    },
+    {
+      "id": "github",
+      "title": {
+        "zh": "GitHub",
+        "en": "GitHub"
+      },
+      "summary": {
+        "zh": "GitHub 官方远程服务器：读写仓库、Issue、PR、Actions 并进行代码搜索。",
+        "en": "GitHub's hosted server for repositories, issues, pull requests, Actions, and code search."
+      },
+      "category": "vendor",
+      "transport": "streamable-http",
+      "command": null,
+      "args": [],
+      "url": "https://api.githubcopilot.com/mcp/",
+      "env": {},
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      },
+      "fields": [
+        {
+          "key": "GITHUB_TOKEN",
+          "label": {
+            "zh": "GitHub 个人访问令牌（PAT）",
+            "en": "GitHub personal access token (PAT)"
+          },
+          "hint": {
+            "zh": "在 GitHub Settings → Developer settings 创建，按需勾选 repo、read:org 等最小权限。",
+            "en": "Create it under GitHub Settings → Developer settings and grant only the scopes you need (repo, read:org, …)."
+          },
+          "placeholder": "ghp_… / github_pat_…",
+          "secret": true,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "api-key",
+          "hard": true,
+          "detail": {
+            "zh": "需要一个 GitHub PAT",
+            "en": "Needs a GitHub PAT"
+          }
+        },
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "需要访问 api.githubcopilot.com",
+            "en": "Requires access to api.githubcopilot.com"
+          }
+        }
+      ],
+      "auth": "api-key",
+      "docs": "https://github.com/github/github-mcp-server",
+      "homepage": "https://github.com",
+      "tags": [
+        "git",
+        "issues",
+        "official",
+        "remote"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "远程端点也支持 OAuth；本插件按请求头注入 PAT，因此这里用令牌方式接入。令牌只会保存在本机 Host。",
+        "en": "The remote endpoint also supports OAuth; this plugin injects a PAT header, so the token flow is used here. The token stays on the local Host."
+      }
+    },
+    {
+      "id": "notion",
+      "title": {
+        "zh": "Notion",
+        "en": "Notion"
+      },
+      "summary": {
+        "zh": "连接 Notion 工作区，搜索页面、读取内容并更新数据库。",
+        "en": "Connect a Notion workspace to search pages, read content, and update databases."
+      },
+      "category": "vendor",
+      "transport": "streamable-http",
+      "command": null,
+      "args": [],
+      "url": "https://mcp.notion.com/mcp",
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "oauth",
+          "hard": true,
+          "detail": {
+            "zh": "首次连接在浏览器中完成 Notion OAuth 授权",
+            "en": "First connection completes Notion OAuth in the browser"
+          }
+        },
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "需要访问 mcp.notion.com",
+            "en": "Requires access to mcp.notion.com"
+          }
+        }
+      ],
+      "auth": "oauth",
+      "docs": "https://developers.notion.com/guides/mcp/overview",
+      "homepage": "https://www.notion.com",
+      "tags": [
+        "notes",
+        "workspace",
+        "remote"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "通过 OAuth 2.0 + PKCE 授权；旧客户端仍可用 /sse 端点，但推荐 Streamable HTTP。",
+        "en": "Authorizes with OAuth 2.0 + PKCE; the /sse endpoint remains for older clients, but Streamable HTTP is recommended."
+      }
+    },
+    {
+      "id": "sentry",
+      "title": {
+        "zh": "Sentry",
+        "en": "Sentry"
+      },
+      "summary": {
+        "zh": "检索错误、分析性能并跟进 Issue，把线上问题直接带进编码上下文。",
+        "en": "Search errors, analyze performance, and triage issues right from your coding context."
+      },
+      "category": "vendor",
+      "transport": "streamable-http",
+      "command": null,
+      "args": [],
+      "url": "https://mcp.sentry.dev/mcp",
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "oauth",
+          "hard": true,
+          "detail": {
+            "zh": "首次连接在浏览器中完成 Sentry OAuth 授权",
+            "en": "First connection completes Sentry OAuth in the browser"
+          }
+        },
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "需要访问 mcp.sentry.dev",
+            "en": "Requires access to mcp.sentry.dev"
+          }
+        }
+      ],
+      "auth": "oauth",
+      "docs": "https://docs.sentry.io/ai/mcp/",
+      "homepage": "https://sentry.io",
+      "tags": [
+        "errors",
+        "observability",
+        "remote"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "所有连接都走 OAuth；可在 URL 后接 /<org>/<project> 把工具限定到某个组织或项目。",
+        "en": "All connections use OAuth; append /<org>/<project> to the URL to scope tools to one organization or project."
+      }
+    },
+    {
+      "id": "linear",
+      "title": {
+        "zh": "Linear",
+        "en": "Linear"
+      },
+      "summary": {
+        "zh": "在 Linear 中查找、创建和更新 Issue、项目与文档。",
+        "en": "Find, create, and update issues, projects, and documents in Linear."
+      },
+      "category": "vendor",
+      "transport": "streamable-http",
+      "command": null,
+      "args": [],
+      "url": "https://mcp.linear.app/mcp",
+      "env": {},
+      "headers": {
+        "Authorization": "Bearer ${LINEAR_API_KEY}"
+      },
+      "fields": [
+        {
+          "key": "LINEAR_API_KEY",
+          "label": {
+            "zh": "Linear API Key",
+            "en": "Linear API key"
+          },
+          "hint": {
+            "zh": "在 Linear Settings → Security & access → Personal API keys 创建；只读场景可用只读 key。",
+            "en": "Create one under Linear Settings → Security & access → Personal API keys; use a read-only key for read-only work."
+          },
+          "placeholder": "lin_api_…",
+          "secret": true,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "api-key",
+          "hard": true,
+          "detail": {
+            "zh": "需要一个 Linear API Key",
+            "en": "Needs a Linear API key"
+          }
+        },
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "需要访问 mcp.linear.app",
+            "en": "Requires access to mcp.linear.app"
+          }
+        }
+      ],
+      "auth": "api-key",
+      "docs": "https://linear.app/docs/mcp",
+      "homepage": "https://linear.app",
+      "tags": [
+        "issues",
+        "project-management",
+        "remote"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "也支持 OAuth；本插件用 Authorization: Bearer <API Key> 接入。只读场景可改用 https://mcp.linear.app/mcp/readonly。",
+        "en": "OAuth is also supported; this plugin connects with Authorization: Bearer <API key>. For read-only access use https://mcp.linear.app/mcp/readonly."
+      }
+    },
+    {
+      "id": "postgres",
+      "title": {
+        "zh": "PostgreSQL",
+        "en": "PostgreSQL"
+      },
+      "summary": {
+        "zh": "通过 DBHub 连接 PostgreSQL，执行 SQL、浏览 schema，并带只读与超时护栏。",
+        "en": "Connect to PostgreSQL through DBHub to run SQL and explore schemas, with read-only and timeout guardrails."
+      },
+      "category": "data",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@bytebase/dbhub@latest",
+        "--transport",
+        "stdio",
+        "--dsn",
+        "${DATABASE_URL}"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [
+        {
+          "key": "DATABASE_URL",
+          "label": {
+            "zh": "PostgreSQL 连接串",
+            "en": "PostgreSQL connection string"
+          },
+          "hint": {
+            "zh": "包含账号密码的连接串，例如 postgresql://user:pass@localhost:5432/mydb；本地库可加 ?sslmode=disable。",
+            "en": "Connection string with credentials, e.g. postgresql://user:pass@localhost:5432/mydb; add ?sslmode=disable for a local server."
+          },
+          "placeholder": "postgresql://user:password@localhost:5432/mydb",
+          "secret": true,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 22.5 或更高版本",
+            "en": "Requires Node.js 22.5 or later"
+          }
+        },
+        {
+          "kind": "api-key",
+          "hard": true,
+          "detail": {
+            "zh": "需要数据库连接串（含凭据）",
+            "en": "Needs a database connection string with credentials"
+          }
+        }
+      ],
+      "auth": "api-key",
+      "docs": "https://github.com/bytebase/dbhub",
+      "homepage": "https://github.com/bytebase/dbhub",
+      "tags": [
+        "database",
+        "sql",
+        "postgres"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "官方参考实现 server-postgres 已归档；DBHub 是维护中的多数据库替代，同时支持 PostgreSQL、SQLite 等。",
+        "en": "The official reference server-postgres is archived; DBHub is a maintained multi-database replacement that also covers SQLite."
+      }
+    },
+    {
+      "id": "sqlite",
+      "title": {
+        "zh": "SQLite",
+        "en": "SQLite"
+      },
+      "summary": {
+        "zh": "用 DBHub 打开本地 SQLite 文件，执行 SQL 并查看表、索引等结构。",
+        "en": "Open a local SQLite file with DBHub to run SQL and inspect tables, indexes, and other schema objects."
+      },
+      "category": "data",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@bytebase/dbhub@latest",
+        "--transport",
+        "stdio",
+        "--dsn",
+        "${SQLITE_DSN}"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [
+        {
+          "key": "SQLITE_DSN",
+          "label": {
+            "zh": "SQLite DSN",
+            "en": "SQLite DSN"
+          },
+          "hint": {
+            "zh": "指向数据库文件的 DSN，格式为 sqlite:///绝对路径，例如 sqlite:///C:/Users/me/data/app.db。",
+            "en": "DSN pointing at the database file, in the form sqlite:///absolute/path, e.g. sqlite:///C:/Users/me/data/app.db."
+          },
+          "placeholder": "sqlite:///C:/Users/me/data/app.db",
+          "secret": false,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 22.5 或更高版本",
+            "en": "Requires Node.js 22.5 or later"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://github.com/bytebase/dbhub",
+      "homepage": "https://github.com/bytebase/dbhub",
+      "tags": [
+        "database",
+        "sql",
+        "sqlite",
+        "local"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "官方参考实现 server-sqlite 已归档；DBHub 通过内置的 node:sqlite 访问 SQLite 文件。",
+        "en": "The official reference server-sqlite is archived; DBHub reaches SQLite files through the built-in node:sqlite module."
+      }
+    },
+    {
+      "id": "brave-search",
+      "title": {
+        "zh": "Brave 搜索",
+        "en": "Brave Search"
+      },
+      "summary": {
+        "zh": "通过 Brave Search API 做网页、新闻、图片、视频和本地搜索。",
+        "en": "Web, news, image, video, and local search backed by the Brave Search API."
+      },
+      "category": "search",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@brave/brave-search-mcp-server",
+        "--transport",
+        "stdio"
+      ],
+      "url": null,
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      },
+      "headers": {},
+      "fields": [
+        {
+          "key": "BRAVE_API_KEY",
+          "label": {
+            "zh": "Brave API Key",
+            "en": "Brave API key"
+          },
+          "hint": {
+            "zh": "在 Brave Search API 控制台申请；免费套餐有调用额度限制。",
+            "en": "Create one in the Brave Search API dashboard; free plans are rate limited."
+          },
+          "placeholder": "BSA...",
+          "secret": true,
+          "required": true,
+          "default": ""
+        }
+      ],
+      "requirements": [
+        {
+          "kind": "node",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Node.js 22 或更高版本",
+            "en": "Requires Node.js 22 or later"
+          }
+        },
+        {
+          "kind": "api-key",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Brave Search API Key",
+            "en": "Needs a Brave Search API key"
+          }
+        }
+      ],
+      "auth": "api-key",
+      "docs": "https://github.com/brave/brave-search-mcp-server",
+      "homepage": "https://brave.com/search/api/",
+      "tags": [
+        "search",
+        "web",
+        "api"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "官方参考 Brave Search 服务器已归档，这是 Brave 官方维护的替代实现；本地搜索等能力可能需要 Pro 套餐。",
+        "en": "Replaces the archived reference Brave Search server with Brave's officially maintained implementation; local search may require a Pro plan."
+      }
+    },
+    {
+      "id": "terraform",
+      "title": {
+        "zh": "Terraform Registry",
+        "en": "Terraform Registry"
+      },
+      "summary": {
+        "zh": "查询 Terraform Registry 的 provider/module 文档，也可连接 HCP Terraform 私有注册表。",
+        "en": "Look up Terraform Registry provider and module docs, optionally against an HCP Terraform private registry."
+      },
+      "category": "infra",
+      "transport": "stdio",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "hashicorp/terraform-mcp-server"
+      ],
+      "url": null,
+      "env": {},
+      "headers": {},
+      "fields": [],
+      "requirements": [
+        {
+          "kind": "docker",
+          "hard": true,
+          "detail": {
+            "zh": "需要 Docker Engine 20.10.21+ 或 Docker Desktop 4.14+，且守护进程已启动",
+            "en": "Needs Docker Engine 20.10.21+ or Docker Desktop 4.14+ with the daemon running"
+          }
+        },
+        {
+          "kind": "network",
+          "hard": false,
+          "detail": {
+            "zh": "查询 Registry 需要外网",
+            "en": "Querying the registry needs outbound network"
+          }
+        }
+      ],
+      "auth": "none",
+      "docs": "https://developer.hashicorp.com/terraform/mcp-server/deploy/local",
+      "homepage": "https://developer.hashicorp.com/terraform/mcp-server",
+      "tags": [
+        "terraform",
+        "infrastructure",
+        "docker"
+      ],
+      "verifiedAt": "2026-11-03",
+      "notes": {
+        "zh": "公开 Registry 无需 Token；连接 HCP Terraform 或 Terraform Enterprise 时在环境中设置 TFE_TOKEN（以及 TFE_ADDRESS）。官方也提供预编译二进制。",
+        "en": "The public registry needs no token; set TFE_TOKEN (and TFE_ADDRESS) in the environment for HCP Terraform or Terraform Enterprise. A prebuilt binary is also available."
+      }
+    }
+  ]
+}

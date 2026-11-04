@@ -1,0 +1,6 @@
+- insert:
+    - id: mcp-center
+      name: dsh-mcp-center
+      config:
+        enabled: true
+        allowRemote: false
