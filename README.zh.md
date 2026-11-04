@@ -161,6 +161,8 @@ MCP 协议本身不在本插件里实现：握手、工具调用、资源读取�
 
 插件页面提供同样的移除 / 安装按钮。变更返回 `restart-required` 时重启 DSH；Client 半的改动刷新页面（F5）即可。卸载会移除插件行和它生成的服务器 bundle，配置仍留在 `$DSH_HOME/mcp-center/`，需要时手动删除。
 
+**从 0.1.x 升级：** 分发包名从 `dsh-mcp-center` 改为 `dsh-mcp-center-ui`，bundle 插入的那一行就与旧的 profile 条目对不上了。需要移除一次旧行（`{"action":"remove_bundle","target":"dsh-mcp-center"}`）再安装新行；`$DSH_HOME/mcp-center/state.json` 和生成的 `@dsh-mcp-center/server-<id>` bundle 会按已保存的配置重建，各服务器的范围与调用方式都会恢复。
+
 更新策略、回滚到旧 tag、`link:` 与发布版互相切换：见 [docs/update.md](docs/update.md)。
 
 ## 开发

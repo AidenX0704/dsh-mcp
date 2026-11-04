@@ -161,6 +161,8 @@ Installing over an existing package reports `already-installed`. The supported u
 
 The Plugins page exposes the same remove / install controls. Restart DSH when a change reports `restart-required`; press F5 for Client-half changes. Uninstalling removes the plugin row and its generated server bundles; your configuration stays in `$DSH_HOME/mcp-center/` and can be deleted by hand.
 
+**Upgrading from 0.1.x:** the distribution name changed from `dsh-mcp-center` to `dsh-mcp-center-ui`, so the row the bundle inserts no longer resolves against the old profile entry. Remove the old row once (`{"action":"remove_bundle","target":"dsh-mcp-center"}`) and install the new one; `$DSH_HOME/mcp-center/state.json` and the generated `@dsh-mcp-center/server-<id>` bundles are re-materialized from your saved configuration, so every server comes back with its scope and mode.
+
 Full policy, tag rollback and `link:` ↔ release migration: [docs/update.md](docs/update.md).
 
 ## Development
