@@ -411,7 +411,7 @@ const configured = renderWith(internals.ConfiguredTab, {
   onImport() {},
   onGoMarket() {},
 })
-check(configured.includes('已配置'), 'stats render')
+check(configured.includes('node demo-server.mjs'), 'endpoint line renders')
 check(configured.includes('演示服务器'), 'server title renders')
 check(configured.includes('已连接'), 'connected status badge renders')
 check(configured.includes('命令调用'), 'manual mode badge renders')
@@ -516,9 +516,9 @@ const invokeEmpty = render(
 )
 check(invokeEmpty.includes('先选择一个已连接的服务器'), 'empty console explains what to do')
 
-console.log('\ndrawers')
+console.log('\ndialogs')
 const createDrawer = render(
-  React.createElement(internals.AddDrawer, {
+  React.createElement(internals.AddDialog, {
     state: { mode: 'create' },
     environment,
     marketplace,
@@ -527,12 +527,12 @@ const createDrawer = render(
     onDone() {},
   }),
 )
-check(createDrawer.includes('添加 MCP 服务器'), 'create drawer renders')
-check(createDrawer.includes('手动配置') && createDrawer.includes('导入 JSON'), 'create drawer has both entry paths')
+check(createDrawer.includes('添加 MCP 服务器'), 'create dialog renders')
+check(createDrawer.includes('手动配置') && createDrawer.includes('导入 JSON'), 'create dialog has both entry paths')
 check(createDrawer.includes('可执行命令'), 'manual form renders command field')
 
 const marketDrawer = render(
-  React.createElement(internals.AddDrawer, {
+  React.createElement(internals.AddDialog, {
     state: { mode: 'market', entry: marketplace.servers[0] },
     environment,
     marketplace,
@@ -541,11 +541,11 @@ const marketDrawer = render(
     onDone() {},
   }),
 )
-check(marketDrawer.includes('快捷添加'), 'market drawer renders')
+check(marketDrawer.includes('快捷添加'), 'market dialog renders')
 check(marketDrawer.includes('允许访问的目录'), 'marketplace field renders as an input')
 
 const importDrawer = render(
-  React.createElement(internals.AddDrawer, {
+  React.createElement(internals.AddDialog, {
     state: { mode: 'import' },
     environment,
     marketplace,
@@ -554,11 +554,11 @@ const importDrawer = render(
     onDone() {},
   }),
 )
-check(importDrawer.includes('导入 JSON'), 'import drawer renders')
+check(importDrawer.includes('导入 JSON'), 'import dialog renders')
 check(importDrawer.includes('mcpServers'), 'import placeholder shows an example')
 
 const editDrawer = render(
-  React.createElement(internals.AddDrawer, {
+  React.createElement(internals.AddDialog, {
     state: { mode: 'edit', server: server() },
     environment,
     marketplace,
@@ -567,9 +567,9 @@ const editDrawer = render(
     onDone() {},
   }),
 )
-check(editDrawer.includes('编辑'), 'edit drawer renders')
-check(editDrawer.includes('演示服务器'), 'edit drawer shows the server title')
-check(editDrawer.includes('abc••••zz'), 'edit drawer shows the masked secret instead of the value')
+check(editDrawer.includes('编辑'), 'edit dialog renders')
+check(editDrawer.includes('演示服务器'), 'edit dialog shows the server title')
+check(editDrawer.includes('abc••••zz'), 'edit dialog shows the masked secret instead of the value')
 
 console.log('\nEnglish locale')
 const english = plugin.__test.localized({ zh: '中文', en: 'English' })

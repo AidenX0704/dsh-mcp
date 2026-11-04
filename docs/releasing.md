@@ -81,7 +81,7 @@ Four independent `node` processes, no network, no running Harness:
 | Suite | Covers |
 |---|---|
 | `test/host-harness.mjs` | Host half against a mock Cordis context: state machine, YAML generation, import parsing, scope, guard, commands, restart persistence, loopback authorization, error branches |
-| `test/client-smoke.mjs` | Client half rendered with a React stub: slot registration, three tabs, every server-card state, market cards, invoke console, four drawers, theme tokens only |
+| `test/client-smoke.mjs` | Client half rendered with a React stub: slot registration, three tabs, every server-card state, market cards, invoke console, four dialogs, theme tokens only |
 | `demo/demo-server.mjs --selftest` | the demo MCP server's protocol checks (33 assertions) |
 | `test/mcp-probe.mjs` | a real stdio handshake against that demo server: `initialize`, `tools/list`, `tools/call` |
 

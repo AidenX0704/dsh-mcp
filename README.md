@@ -14,7 +14,7 @@ The `license` / `node` / `dsh` / `tests` badges are plain shields.io badges, not
 
 - **Sidebar entry `mcp`** (order 40, after Plugins / Automations / Skills Center) that opens the MCP Center page in the main column.
 - **Three tabs**: *Configured* (status, command or URL, tool count, scope, invocation mode, enable / edit / test / expand / delete), *Marketplace*, *Invoke*.
-- **Marketplace** ships 19 curated real MCP servers plus one offline demo server: category filter, search, requirement badges (key / OAuth / Node / Python / uv / Docker / network), and a quick-add drawer generated from each entry's `fields`.
+- **Marketplace** ships 19 curated real MCP servers plus one offline demo server: category filter, search, requirement badges (key / OAuth / Node / Python / uv / Docker / network), and a quick-add dialog generated from each entry's `fields`.
 - **Two ways to add a server**: a manual form (stdio or streamable-http, command, args, env, URL, headers, timeout) and a JSON import that understands Claude Desktop / Cursor `mcpServers`, VS Code `servers`, or a single `{command}` / `{url}` object — several servers at once, with a preview before anything is created.
 - **Scope** — all sessions, specific workspaces, or specific sessions. Out of scope means those tools are not merely discouraged: they leave that session's tool list and are rejected at execution.
 - **Invocation mode** — `auto` puts the tools in the model's tool list; `manual` hides them and keeps them reachable only through `/mcp call`, the Invoke console, or the `mcp_manager` tool.
@@ -193,7 +193,7 @@ To develop against your own checkout, install by absolute path — DSH records a
 
 ## Known limitations
 
-- **Removing a stored secret from the panel is not wired up.** Clearing a key/value row in the edit drawer keeps the stored value (`""` means "unchanged"). The Host API does accept a delete: `POST /api/dsh-mcp-center/action` with `{"action":"update","id":"<server>","patch":{"env":{"KEY":null}}}`. Prefer `env:NAME` refs so the secret never lands in `state.json` at all.
+- **Removing a stored secret from the panel is not wired up.** Clearing a key/value row in the edit dialog keeps the stored value (`""` means "unchanged"). The Host API does accept a delete: `POST /api/dsh-mcp-center/action` with `{"action":"update","id":"<server>","patch":{"env":{"KEY":null}}}`. Prefer `env:NAME` refs so the secret never lands in `state.json` at all.
 - **Uninstall the plugin before its generated bundles.** If `dsh-mcp-center` is removed while `@dsh-mcp-center/server-<id>` rows are still installed, those servers keep loading through `@deepseek-ai/dsh-mcp-client` with no scope or invocation-mode enforcement. Delete the servers first (Configured → delete), or remove the leftover rows from the Plugins page.
 - **OAuth-only marketplace entries have no OAuth flow.** Notion and Sentry are listed for their tool surface but will answer `401` until you add a token-based server instead; the GitHub and Linear entries use plain PAT headers.
 - **`state.json` mode `0600` is exact on POSIX and advisory on Windows**, where the file inherits the directory ACL. Treat the file as sensitive on every platform.

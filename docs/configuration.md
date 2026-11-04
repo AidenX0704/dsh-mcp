@@ -202,7 +202,7 @@ Top-level shape:
 }
 ```
 
-Each entry: `id` (also the server name), bilingual `title`/`summary`, `category`, `transport`, `command`/`args`/`env` (stdio) or `url`/`headers` (http), `fields[]` (the `${KEY}` inputs the quick-add drawer generates), `requirements[]` (`kind` + `hard` + bilingual `detail`), `auth`, `docs`, `homepage`, `tags`, `verifiedAt`, `notes`.
+Each entry: `id` (also the server name), bilingual `title`/`summary`, `category`, `transport`, `command`/`args`/`env` (stdio) or `url`/`headers` (http), `fields[]` (the `${KEY}` inputs the quick-add dialog generates), `requirements[]` (`kind` + `hard` + bilingual `detail`), `auth`, `docs`, `homepage`, `tags`, `verifiedAt`, `notes`.
 
 The Host adds one entry that is not in the file: the built-in **demo** server (`id: demo`, transport `stdio`, `command: node`, `args: [<package>/demo/demo-server.mjs]`), plus a `local` category, because it needs nothing from the machine and therefore makes a working first connection.
 

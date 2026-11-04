@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Configuration is a dialog, not a side drawer.** Add, edit, quick-add and JSON import all
+  open a centered modal with a sticky footer, an Escape/backdrop close, focus moved into the
+  form and Tab kept inside the dialog.
+- **Panel restyled against the shipped Harness theme.** Server cards separate identity,
+  endpoint and state; the marketplace grid gains per-entry identity marks; the invoke console
+  is a two-pane workspace with an inline invocation-mode switch and a collapsible command
+  reference. Counts moved from a stat row into the page header.
+
+### Fixed
+
+- **Enable switches read as a solid black pill.** The knob used the primary label colour, so
+  it disappeared into the brand track in the light theme. The track now takes
+  `--dsw-alias-brand-primary` with a `--dsw-alias-label-primary-foreground` knob, and the off
+  state is a neutral track with a primary knob.
+- Status, requirement and mode chips lost their tints because `is-brand` is not a theme
+  tone; they now use the accent and state tints.
+
 ## [0.1.0] - 2026-11-04
 
 First public release: an MCP management centre for DeepSeek Harness, driven equally from
@@ -18,7 +37,7 @@ the Web UI, the agent tool and a slash command.
   and a main-column page with three tabs: **Configured**, **Marketplace** and **Invoke**.
 - **Curated marketplace.** 19 real MCP servers (official reference servers, vendor
   endpoints, devtools, data, search and infra) plus an offline demo entry, with category
-  filter, search, requirement and auth badges, and a quick-add drawer that fills the entry
+  filter, search, requirement and auth badges, and a quick-add dialog that fills the entry
   from the catalog and asks only for the fields it declares.
 - **Manual form and JSON import.** Add servers by hand, or paste/import a Claude Desktop or
   Cursor (`mcpServers`) document, a VS Code (`servers`) document, or a single

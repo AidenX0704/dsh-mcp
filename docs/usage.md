@@ -28,7 +28,7 @@ The plugin adds one sidebar entry, **MCP**, in `sidebar.panellist` with id `mcp`
 ├ tabs ───────────────────────────────────────────────────────────────┤
 │ Configured (3)   Marketplace (20)   Invoke                          │
 ├ body ───────────────────────────────────────────────────────────────┤
-│ stats: 3 configured · 2 enabled · 11 tools                          │
+│ 3 configured · 2 enabled · 11 tools                                 │
 │ …tabs content…                                                      │
 ├ footer ─────────────────────────────────────────────────────────────┤
 │ Configuration lives in the Host; secrets never travel back to this page.
@@ -36,15 +36,15 @@ The plugin adds one sidebar entry, **MCP**, in `sidebar.panellist` with id `mcp`
 ```
 
 - **Refresh** re-fetches `/state`. The page also polls every 6 s on its own, so tool counts and status catch up without a click.
-- **+ Add server** opens the create drawer.
+- **+ Add server** opens the create dialog.
 - Transient notices (saved, removed, test result, error) appear as a pill above the content and auto-dismiss after 4 s.
 - If the state cannot be fetched, the body is replaced by an error block with its own **Refresh** button.
 
 ## Configured tab
 
-Empty state offers three buttons: **Add server** (jumps to the Marketplace tab), **Manual setup** and **Import JSON** (both open the create drawer), plus a hint that `/mcp list` and `/mcp call` exist.
+Empty state offers three buttons: **Add server** (opens the create dialog), **Marketplace** (jumps to the market tab) and **Import JSON** (opens the same dialog on its import tab), plus a hint that `/mcp list` and `/mcp call` exist.
 
-With servers present, a stats row (**configured / enabled / tools**) sits above one card per server.
+With servers present the counts (**configured / enabled / tools**) sit in the page header, above one card per server.
 
 ### Card anatomy
 
@@ -52,16 +52,17 @@ With servers present, a stats row (**configured / enabled / tools**) sits above 
 |---|---|
 | Status dot + badge | `connected` (ready), `starting`, `no tools` (pending), `error`, `disabled` |
 | Title + mono id | display title and the server id, which is also the tool prefix `mcp__<id>__` |
+| Endpoint line | `command args…` for stdio or the URL for HTTP |
 | Transport badge | `local process` (stdio) or `remote HTTP` (streamable-http) |
 | `external` badge | the row was configured outside MCP Center (see below) |
 | Invocation badge | `automatic` or `command` |
-| Meta line | `command args…` for stdio or the URL for HTTP, tool count, scope summary, last status message |
+| Scope chip | the current scope; clicking it opens the scope editor inline |
+| Tool count | how many tools the server currently exposes |
 | Switch | enable / disable the server's row |
-| **Scope** | opens the scope editor inline |
-| **Test** | lists the server's tools (and reports the row's runtime phase); expands the card |
-| **Edit** | opens the edit drawer |
+| **Test** | runs a connection check and expands the card to the tool list |
+| **Edit** | opens the edit dialog |
 | **Details** / **Collapse** | expands the card body: mode switch, tool list, `/mcp call` hint |
-| Trash | two-step delete: first click arms it (turns into **Confirm delete**, disarms after 4 s), second click deletes |
+| Trash | two-step delete: the first click arms it (it turns red, disarms after 4 s), the second click deletes |
 
 **External servers.** If a profile already contains a `@deepseek-ai/dsh-mcp-client` row that MCP Center did not create, the plugin adopts it as a read-only `external` server so scope and invocation mode stay manageable in one place. Its connection fields cannot be edited (only mode, scope, labels), and it cannot be deleted from this page — remove its row from the profile patch instead. Its recorded transport is a placeholder (`streamable-http`), because the plugin only sees the resulting tool namespace.
 
@@ -102,7 +103,7 @@ The tab lists the bundled catalog: 19 curated servers plus the built-in **Local 
 | Search box | case-insensitive match against entry id, title (`zh` + `en`), summary and tags |
 | Category chips | `All` plus every category in the catalog: *Built in*, *Official reference*, *Docs*, *Devtools*, *Vendor*, *Data*, *Search*, *Infra* |
 | Refresh | re-runs the Host's external-row discovery and republishes state |
-| **Quick add** | opens the quick-add drawer (disabled when that server is already configured) |
+| **Quick add** | opens the quick-add dialog; an already configured entry shows a `Configured` badge instead of the button |
 | **Docs** | opens the entry's `docs` URL in a new tab |
 | `verified <date>` | the date the entry's command/URL was last confirmed against upstream docs |
 
@@ -125,15 +126,15 @@ Requirement badges are evaluated against what the Host can actually see:
 | `python` | `python` (Windows) / `python3` is on `PATH` | — |
 | `uv` | `uv` is on `PATH` (`uvx` comes with it) | — |
 | `docker` | `docker` answers | a running daemon is still required at call time |
-| `api-key` | always | you supply the secret in the drawer |
+| `api-key` | always | you supply the secret in the dialog |
 | `oauth` | never, for now | the shipped MCP client sends header credentials only; the badge stays amber (see [troubleshooting](troubleshooting.md#http-server-answers-401-or-403)) |
 | `network` | informational | shown as a plain badge |
 
-A requirement with `hard: true` (the default; `hard: false` makes it informational) blocks creation until you tick **Add anyway** in the quick-add drawer. Amber means "you were warned", not "impossible".
+A requirement with `hard: true` (the default; `hard: false` makes it informational) blocks creation until you tick **Add anyway** in the quick-add dialog. Amber means "you were warned", not "impossible".
 
 ## Adding a server
 
-**+ Add server** opens a drawer with two tabs, **Manual setup** and **Import JSON**. Escape or a click on the backdrop closes it.
+**+ Add server** opens a dialog with two tabs, **Manual setup** and **Import JSON**. Escape or a click on the backdrop closes it.
 
 ### Manual form fields
 
@@ -236,7 +237,7 @@ A flat object with no `mcpServers`/`servers` group is treated as a single server
 
 ### Quick add from the marketplace
 
-**Quick add** opens the same drawer in a third mode: the name, transport, command/URL and any `env`/`headers` come from the catalog entry, and the entry's `fields` become inputs.
+**Quick add** opens the same dialog in a third mode: the name, transport, command/URL and any `env`/`headers` come from the catalog entry, and the entry's `fields` become inputs.
 
 | Element | Meaning |
 |---|---|
@@ -250,11 +251,11 @@ The values you type are substituted into the entry's `command`, `args`, `env` an
 
 ## Editing a server
 
-**Edit** opens the drawer in edit mode: same fields as the manual form, name locked, plus the fact that secret fields show their masked value. Only changed fields are submitted:
+**Edit** opens the dialog in edit mode: same fields as the manual form, name locked, plus the fact that secret fields show their masked value. Only changed fields are submitted:
 
 - Connection fields (transport, command, args, cwd, url, env, headers, timeout) cause a **rebuild**: the generated bundle is rewritten and reinstalled, and the card goes `updating` → `ready`/`no tools`.
 - Mode and labels (title, description) are applied without a reconnect.
-- Scope is edited on the card, not in the drawer.
+- Scope is edited on the card, not in the dialog.
 - For `external` servers, only title, description, mode and scope are accepted; anything else is rejected by the Host.
 
 ## Scope
@@ -305,7 +306,7 @@ Type these in the composer. Every subcommand is case-insensitive; the tool argum
 | `list` | `/mcp list` | one line per server: `● id [transport] mode=… scope=… tools=N` (plus `error=…` when relevant) | `/mcp list` |
 | `tools` | `/mcp tools [server]` | without an argument: `server: tool1, tool2` per server. With one: `mcp__server__tool — description` per tool | `/mcp tools demo` |
 | `call` | `/mcp call <server> <tool> [json]` | runs one tool; returns its text content, or its JSON value when the tool returns no text blocks | `/mcp call demo echo {"text":"hi"}` |
-| `add` | `/mcp add <name> <json>` | creates a server from a `{command,args,env}` / `{url,headers}` object, with the same validation as the import drawer | `/mcp add time {"command":"uvx","args":["mcp-server-time"]}` |
+| `add` | `/mcp add <name> <json>` | creates a server from a `{command,args,env}` / `{url,headers}` object, with the same validation as the import dialog | `/mcp add time {"command":"uvx","args":["mcp-server-time"]}` |
 | `rm` | `/mcp rm <server>` (alias `remove`) | deletes the server and its generated bundle | `/mcp rm time` |
 | `enable` | `/mcp enable <server>` | installs/enables the row; prints the resulting summary line | `/mcp enable demo` |
 | `disable` | `/mcp disable <server>` | disables the row; the tools disappear from every session | `/mcp disable demo` |

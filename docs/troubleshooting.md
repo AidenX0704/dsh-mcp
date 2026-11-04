@@ -114,7 +114,7 @@ Note the difference from the plugin's own `403 {"ok":false,"error":"forbidden"}`
 | **Token expired / wrong scope** | reissue it and paste the new value in **Edit** (an untouched field keeps the old one — you must type the new value) |
 | **Endpoint path is wrong** | Streamable HTTP endpoints are usually `<host>/mcp`; a trailing path change yields 404 or a 401 from a gateway |
 
-If the token is correct in `curl` but not from the plugin, compare the exact header map the plugin stored: masked values are shown in the card's edit drawer (`first3••••last2`), which is enough to see *which* value is in place without exposing it.
+If the token is correct in `curl` but not from the plugin, compare the exact header map the plugin stored: masked values are shown in the card's edit dialog (`first3••••last2`), which is enough to see *which* value is in place without exposing it.
 
 ## Tools are invisible to the model
 

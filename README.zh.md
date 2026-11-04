@@ -14,7 +14,7 @@
 
 - **侧栏入口 `mcp`**（order 40，排在「插件 / 自动化任务 / 技能中心」之后），在主栏渲染 MCP 管理页。
 - **三个页签**：*已配置*（状态、命令或地址、工具数、生效范围、调用方式，以及启停 / 编辑 / 测试 / 展开 / 删除）、*市场*、*调用*。
-- **市场**内置 19 个真实 MCP 服务器和 1 个离线演示服务器：分类筛选、搜索、前置条件标签（密钥 / OAuth / Node / Python / uv / Docker / 网络），快捷添加抽屉由条目的 `fields` 自动生成。
+- **市场**内置 19 个真实 MCP 服务器和 1 个离线演示服务器：分类筛选、搜索、前置条件标签（密钥 / OAuth / Node / Python / uv / Docker / 网络），快捷添加弹窗由条目的 `fields` 自动生成。
 - **两种添加方式**：手动表单（stdio 或 streamable-http、命令、参数、环境变量、地址、请求头、超时）与 JSON 导入（支持 Claude Desktop / Cursor 的 `mcpServers`、VS Code 的 `servers`，或单个 `{command}` / `{url}` 对象，可一次导入多台），创建前先给解析预览。
 - **生效范围**：全部会话、指定工作区、指定会话。超出范围的服务器不只是「建议别用」——它的工具会从该会话的工具表里移除，执行时也会被拒绝。
 - **调用方式**：`auto` 把工具放进模型的工具列表；`manual` 对模型隐藏，只能通过 `/mcp call`、调用台或 `mcp_manager` 工具执行。
@@ -193,7 +193,7 @@ DSH_WEB_URL=http://127.0.0.1:3637 node test/e2e-http.mjs
 
 ## 已知限制
 
-- **面板里删不掉已保存的密钥。** 编辑抽屉里清空某个键值行会被当成「不修改」（`""` 表示保持原值）。Host 接口本身支持删除：`POST /api/dsh-mcp-center/action`，body 为 `{"action":"update","id":"<server>","patch":{"env":{"KEY":null}}}`。更稳妥的做法是用 `env:NAME` 间接引用，密钥根本不落盘。
+- **面板里删不掉已保存的密钥。** 编辑弹窗里清空某个键值行会被当成「不修改」（`""` 表示保持原值）。Host 接口本身支持删除：`POST /api/dsh-mcp-center/action`，body 为 `{"action":"update","id":"<server>","patch":{"env":{"KEY":null}}}`。更稳妥的做法是用 `env:NAME` 间接引用，密钥根本不落盘。
 - **先删服务器，再卸载插件。** 如果 `dsh-mcp-center` 卸载时 `@dsh-mcp-center/server-<id>` 行还装着，这些服务器仍会通过 `@deepseek-ai/dsh-mcp-client` 加载，但不再受范围与调用方式约束。请先在「已配置」里逐台删除，或到插件页移除残留行。
 - **只支持 OAuth 的市场条目没有 OAuth 流程。** Notion、Sentry 只列出了工具面，没配授权会返回 `401`；GitHub、Linear 用的是 PAT 请求头。
 - **`state.json` 的 `0600` 在 POSIX 上精确，在 Windows 上只是名义上的**——文件权限实际继承目录 ACL。任何平台都请把它当敏感文件对待。
