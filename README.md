@@ -191,6 +191,14 @@ To develop against your own checkout, install by absolute path — DSH records a
 | [docs/troubleshooting.md](docs/troubleshooting.md) | Symptom → cause → fix, plus how to collect diagnostics |
 | [docs/releasing.md](docs/releasing.md) | Maintainer release checklist |
 
+## Known limitations
+
+- **Removing a stored secret from the panel is not wired up.** Clearing a key/value row in the edit drawer keeps the stored value (`""` means "unchanged"). The Host API does accept a delete: `POST /api/dsh-mcp-center/action` with `{"action":"update","id":"<server>","patch":{"env":{"KEY":null}}}`. Prefer `env:NAME` refs so the secret never lands in `state.json` at all.
+- **Uninstall the plugin before its generated bundles.** If `dsh-mcp-center` is removed while `@dsh-mcp-center/server-<id>` rows are still installed, those servers keep loading through `@deepseek-ai/dsh-mcp-client` with no scope or invocation-mode enforcement. Delete the servers first (Configured → delete), or remove the leftover rows from the Plugins page.
+- **OAuth-only marketplace entries have no OAuth flow.** Notion and Sentry are listed for their tool surface but will answer `401` until you add a token-based server instead; the GitHub and Linear entries use plain PAT headers.
+- **`state.json` mode `0600` is exact on POSIX and advisory on Windows**, where the file inherits the directory ACL. Treat the file as sensitive on every platform.
+- **Adopted external servers report `streamable-http`** in the edit form even when the real transport is `stdio`, because only the tool namespace is observable from the outside.
+
 ## Contributing
 
 Bug reports, marketplace corrections and pull requests: see [CONTRIBUTING.md](CONTRIBUTING.md).

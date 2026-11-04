@@ -191,6 +191,14 @@ DSH_WEB_URL=http://127.0.0.1:3637 node test/e2e-http.mjs
 | [docs/troubleshooting.md](docs/troubleshooting.md) | 现象 → 原因 → 解决，以及诊断信息收集方式 |
 | [docs/releasing.md](docs/releasing.md) | 维护者发布清单 |
 
+## 已知限制
+
+- **面板里删不掉已保存的密钥。** 编辑抽屉里清空某个键值行会被当成「不修改」（`""` 表示保持原值）。Host 接口本身支持删除：`POST /api/dsh-mcp-center/action`，body 为 `{"action":"update","id":"<server>","patch":{"env":{"KEY":null}}}`。更稳妥的做法是用 `env:NAME` 间接引用，密钥根本不落盘。
+- **先删服务器，再卸载插件。** 如果 `dsh-mcp-center` 卸载时 `@dsh-mcp-center/server-<id>` 行还装着，这些服务器仍会通过 `@deepseek-ai/dsh-mcp-client` 加载，但不再受范围与调用方式约束。请先在「已配置」里逐台删除，或到插件页移除残留行。
+- **只支持 OAuth 的市场条目没有 OAuth 流程。** Notion、Sentry 只列出了工具面，没配授权会返回 `401`；GitHub、Linear 用的是 PAT 请求头。
+- **`state.json` 的 `0600` 在 POSIX 上精确，在 Windows 上只是名义上的**——文件权限实际继承目录 ACL。任何平台都请把它当敏感文件对待。
+- **被插件「接管」的外部服务器在编辑表单里一律显示 `streamable-http`**，因为从外部只能看到工具命名空间，看不到真实传输方式。
+
 ## 参与贡献
 
 问题反馈、市场条目修正与 PR 请见 [CONTRIBUTING.md](CONTRIBUTING.md)。
