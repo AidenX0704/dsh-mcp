@@ -1,6 +1,6 @@
 {
   "id": "dsh-external/dsh-mcp-center",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "./index.js",
   "description": "MCP Center for DeepSeek Harness: a sidebar entry (order 40) and a three-tab panel that browse a curated, offline marketplace — 19 real MCP servers plus a zero-dependency local demo — add servers with a manual form or by importing Claude Desktop / Cursor / VS Code JSON, give each server its own scope (all / workspace / session) and invocation mode (auto, or manual through the invoke console and /mcp), and surface the same capabilities to the model through the mcp_manager agent tool, the /mcp slash command (list/tools/call/add/rm/enable/disable/auto/manual/scope/test/market) and scope-guarded MCP resource tools; registry state lives in $DSH_HOME/mcp-center/state.json (mode 0600) with env/header values masked and env:NAME indirection, every server materializing as its own generated bundle installed through the profile Plugin Manager, and the Client half talks to a loopback-only HTTP API at /api/dsh-mcp-center. · DeepSeek Harness 的 MCP 管理中心：侧边栏入口加三页签面板，内置 19 个真实 MCP 服务器与离线演示市场，支持手动表单或导入 Claude Desktop / Cursor / VS Code JSON 添加，按全部/工作区/会话限定范围，可选自动调用或经调用台与 /mcp 手动调用；同一套能力同时暴露给模型侧的 mcp_manager 工具、/mcp 命令（list/tools/call/add/rm/enable/disable/auto/manual/scope/test/market）与受范围守卫的 MCP 资源工具；状态存于 $DSH_HOME/mcp-center/state.json（0600，env/header 掩码并支持 env:NAME 间接引用），每个服务器生成独立 bundle 经 profile 插件管理器安装，Client 半通过仅回环的 /api/dsh-mcp-center 通信。",
   "engines": {

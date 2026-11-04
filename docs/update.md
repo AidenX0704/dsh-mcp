@@ -39,7 +39,7 @@ Config compatibility is a promise worth stating plainly: `state.json` normalizes
 Installing over an existing package returns `already-installed`; DSH does not upgrade in place. The supported sequence is remove, then install:
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 ```json
@@ -60,7 +60,7 @@ Both directions are a remove plus an install with a different spec; what changes
 **Development checkout → tagged release** (the normal "ship it" move):
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 ```json
@@ -72,7 +72,7 @@ The profile dependency changes from `link:C:/Users/you/dsh-mcp` to a git spec pi
 **Tagged release → development checkout** (when you need to iterate):
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 ```json
@@ -104,7 +104,7 @@ Then in the UI: the `mcp` entry is present, the Configured tab lists your server
 A rollback is the same remove + install with an older tag:
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 ```json

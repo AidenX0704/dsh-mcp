@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-04
+
 ### Changed
 
+- **Published to npm as `dsh-mcp-center-ui`.** The bare `dsh-mcp-center` name already belongs
+  to an unrelated settings-only MCP manager, so the distribution carries a `-ui` suffix. Runtime
+  identity is unchanged (plugin id, module id, `/api/dsh-mcp-center`, `$DSH_HOME/mcp-center`,
+  `@dsh-mcp-center/server-<id>`), so upgrading does not migrate an existing install.
 - **Configuration is a dialog, not a side drawer.** Add, edit, quick-add and JSON import all
   open a centered modal with a sticky footer, an Escape/backdrop close, focus moved into the
   form and Tab kept inside the dialog.
@@ -75,5 +81,6 @@ the Web UI, the agent tool and a slash command.
   and runnable without a network, a package download or a running Harness; the live
   end-to-end suite against a running Harness is opt-in.
 
-[Unreleased]: https://github.com/AidenX0704/dsh-mcp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/AidenX0704/dsh-mcp/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/AidenX0704/dsh-mcp/releases/tag/v0.2.0
 [0.1.0]: https://github.com/AidenX0704/dsh-mcp/releases/tag/v0.1.0

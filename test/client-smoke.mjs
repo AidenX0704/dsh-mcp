@@ -132,7 +132,7 @@ globalThis.window = {
 }
 new Function('window', fs.readFileSync(CLIENT, 'utf8'))(globalThis.window)
 check(registered !== null, 'client bundle registers a module factory')
-check(registered?.id === 'dsh-mcp-center', 'module id matches the package name', registered?.id)
+check(registered?.id === 'dsh-mcp-center', 'module id stays stable across the npm rename', registered?.id)
 
 const dictionaries = {}
 const localeService = {

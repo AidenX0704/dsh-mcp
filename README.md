@@ -46,6 +46,12 @@ The `github:AidenX0704/dsh-mcp` shorthand works for the same call.
 https://github.com/AidenX0704/dsh-mcp#v0.1.0
 ```
 
+**4. npm registry.** The package is published as `dsh-mcp-center-ui` — the bare `dsh-mcp-center` name on npm belongs to an unrelated project, so this one carries a `-ui` suffix:
+
+```json
+{"action":"install_bundle","target":"dsh-mcp-center-ui"}
+```
+
 Further paths — local development checkout (`link:`), `npm pack` tarball, registry — and what each one records in the profile `package.json` are in [docs/install.md](docs/install.md).
 
 ## Quick start
@@ -146,7 +152,7 @@ The MCP protocol is not implemented here: framing, handshakes, tool calls and re
 Installing over an existing package reports `already-installed`. The supported update is remove, then install:
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 ```json

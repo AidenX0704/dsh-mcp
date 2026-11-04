@@ -117,11 +117,11 @@ git show --stat v0.1.1
 1. Build the tarball from the tagged tree:
 
    ```bash
-   npm pack            # dsh-mcp-center-0.1.1.tgz
+   npm pack            # dsh-mcp-center-ui-0.2.0.tgz
    ```
 
 2. Create the release on GitHub for tag `v0.1.1`, titled `v0.1.1`.
-3. Attach `dsh-mcp-center-0.1.1.tgz` as an asset — it is what people install on machines without git or a registry.
+3. Attach `dsh-mcp-center-ui-0.2.0.tgz` as an asset — it is what people install on machines without git or a registry.
 4. Mark a `0.x` release as a **pre-release** only if you genuinely expect churn; otherwise leave it a normal release so its notes are the default.
 
 The release body is the changelog entry for that version (see below), not a link to the changelog — people read the release page, not your repository.
@@ -155,7 +155,7 @@ https://github.com/AidenX0704/dsh-mcp#v0.1.1
 An update is remove + install — DSH reports `already-installed` for an install over an existing package, so the release note should spell out both steps:
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 {"action":"install_bundle","target":"https://github.com/AidenX0704/dsh-mcp#v0.1.1"}
 ```
 
@@ -163,10 +163,15 @@ Expect `restart-required` on the update path: replacing an installed package nee
 
 ## Optional: publish to npm
 
-The package is publishable (`publishConfig.access: "public"`, `files` and `engines` set, `npm pack` verified):
+The package is published as **`dsh-mcp-center-ui`**. The bare `dsh-mcp-center` name on npm was
+already taken by an unrelated settings-only MCP manager, so this package keeps the `-ui` suffix;
+`publishConfig.registry` points at the public registry so a mirror configured in `.npmrc` cannot
+swallow the publish:
 
 ```bash
-npm publish
+npm login                       # once per machine
+npm publish                     # uses publishConfig.registry + access: public
+npm view dsh-mcp-center-ui version
 ```
 
 Before doing it for the first time, check that the published file list is what you expect:
@@ -177,7 +182,7 @@ npm pack --dry-run
 
 Expected contents: `index.js`, `client.js`, `cordis.patch.yml`, `dsh.plugin.json`, `icon.svg`, `data/marketplace.json`, `data/MARKETPLACE-SPEC.md`, `demo/demo-server.mjs`, `locale/en.json`, `locale/zh.json`, `docs/*.md`, `README.md`, `README.zh.md`, `CHANGELOG.md`, `LICENSE`. The tests are deliberately not shipped.
 
-Publishing changes nothing about how the plugin works; it just adds a second install spec (`dsh-mcp-center@^0.1.1`) next to the git tag.
+Publishing changes nothing about how the plugin works; it just adds a second install spec (`dsh-mcp-center-ui@^0.2.0`) next to the git tag. The runtime identity — plugin id `dsh-external/dsh-mcp-center`, module id `dsh-mcp-center`, route `/api/dsh-mcp-center`, state dir `$DSH_HOME/mcp-center`, generated bundles `@dsh-mcp-center/server-<id>` — deliberately keeps the short name, so a rename of the distribution never migrates an existing install.
 
 ## Things that must not drift
 

@@ -41,7 +41,7 @@ Symptom first, cause second, fix third. Most entries end with "reload the page" 
 **Causes and fixes, in the order worth checking:**
 
 1. **The page was not reloaded.** The Client half is a page-start module. Press **F5**. This is the answer the overwhelming majority of the time.
-2. **The bundle is not selected or not enabled.** Open the Plugins page: `dsh-mcp-center` must be listed and enabled. With the tool:
+2. **The bundle is not selected or not enabled.** Open the Plugins page: `dsh-mcp-center-ui` must be listed and enabled. With the tool:
    ```json
    {"action":"list_bundles"}
    ```

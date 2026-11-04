@@ -46,6 +46,12 @@ https://github.com/AidenX0704/dsh-mcp
 https://github.com/AidenX0704/dsh-mcp#v0.1.0
 ```
 
+**4. npm registry。** 该包以 `dsh-mcp-center-ui` 发布：npm 上裸名 `dsh-mcp-center` 属于另一个无关项目，因此这里加了 `-ui` 后缀：
+
+```json
+{"action":"install_bundle","target":"dsh-mcp-center-ui"}
+```
+
 其余方式——本地开发目录（`link:`）、`npm pack` 打出的 tarball、registry——以及它们各自在 profile `package.json` 里留下什么记录，见 [docs/install.md](docs/install.md)。
 
 ## 快速开始
@@ -146,7 +152,7 @@ MCP 协议本身不在本插件里实现：握手、工具调用、资源读取�
 覆盖安装会返回 `already-installed`。受支持的更新方式是先删再装：
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 ```json

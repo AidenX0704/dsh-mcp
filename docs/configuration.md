@@ -17,7 +17,7 @@ The bundle's `cordis.patch.yml` inserts one Host row:
 ```yaml
 - insert:
     - id: mcp-center
-      name: dsh-mcp-center
+      name: dsh-mcp-center-ui
       config:
         enabled: true
         allowRemote: false

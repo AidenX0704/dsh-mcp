@@ -1,6 +1,6 @@
 {
-  "name": "dsh-mcp-center",
-  "version": "0.1.0",
+  "name": "dsh-mcp-center-ui",
+  "version": "0.2.0",
   "description": "MCP Center for DeepSeek Harness: browse a built-in MCP marketplace, add servers by JSON import or a manual form, scope them per workspace or session, and choose automatic or /command invocation. · DeepSeek Harness 的 MCP 管理中心：内置市场、JSON 导入或手动添加、按范围生效、自动调用或斜杠命令手动调用。",
   "keywords": [
     "dsh",
@@ -12,7 +12,9 @@
     "mcp-client",
     "mcp-marketplace",
     "plugin-manager",
-    "cordis"
+    "cordis",
+    "mcp-center",
+    "dsh-plugin-ui"
   ],
   "homepage": "https://github.com/AidenX0704/dsh-mcp#readme",
   "repository": {
@@ -71,7 +73,8 @@
     "version": "node scripts/sync-version.mjs && git add dsh.plugin.json"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "dsh": {
     "bundle": {

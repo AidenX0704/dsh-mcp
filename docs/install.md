@@ -1,6 +1,6 @@
-# Installing `dsh-mcp-center`
+# Installing `dsh-mcp-center-ui`
 
-`dsh-mcp-center` is a **DSH bundle**: a package that carries a Cordis patch (`cordis.patch.yml`) inserting one Host row, plus an optional Client half that the Web GUI loads at page start. Installation is therefore not a file copy — it is a dependency installed into a **profile** and a bundle selected in that profile's `dsh.profile.bundles` list. Both steps are owned by DSH's Plugin Manager; you never edit the profile by hand.
+`dsh-mcp-center-ui` is a **DSH bundle**: a package that carries a Cordis patch (`cordis.patch.yml`) inserting one Host row, plus an optional Client half that the Web GUI loads at page start. Installation is therefore not a file copy — it is a dependency installed into a **profile** and a bundle selected in that profile's `dsh.profile.bundles` list. Both steps are owned by DSH's Plugin Manager; you never edit the profile by hand.
 
 This page documents every supported install path, what each one records, how to verify it, how to remove it, and what the failure codes mean.
 
@@ -67,7 +67,7 @@ The tool accepts a package name, an absolute path, a git URL (including `github:
 ```
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 `install_bundle` reports:
@@ -117,13 +117,13 @@ On Windows, prefer a forward-slash absolute path (`C:/Users/you/dsh-mcp`) if the
 
 ```bash
 npm pack
-# dsh-mcp-center-0.1.0.tgz
+# dsh-mcp-center-ui-0.2.0.tgz
 ```
 
 Install by absolute path to the `.tgz`:
 
 ```json
-{"action":"install_bundle","target":"C:\\Users\\you\\dsh-mcp\\dsh-mcp-center-0.1.0.tgz"}
+{"action":"install_bundle","target":"C:\\Users\\you\\dsh-mcp\\dsh-mcp-center-ui-0.2.0.tgz"}
 ```
 
 `npm pack` runs the `prepack` hook (`node test/run.mjs --offline`), so a broken offline suite blocks packaging. The published file list is the `files` field in `package.json` — `index.js`, `client.js`, `cordis.patch.yml`, `data/`, `demo/`, `locale/`, `docs/*.md`, `icon.svg`, `README*`, `CHANGELOG.md`, `LICENSE`. Tests and `test/` are not shipped; the offline suite runs from a checkout.
@@ -135,12 +135,14 @@ A tarball is the only path that works offline once you have the file, which make
 The package is publishable (`publishConfig.access: public`, `files` and `engines` set, `npm pack` verified), so once a version is published it installs like any other bundling package:
 
 ```json
-{"action":"install_bundle","target":"dsh-mcp-center"}
+{"action":"install_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 ```json
-{"action":"install_bundle","target":"dsh-mcp-center@^0.1.0"}
+{"action":"install_bundle","target":"dsh-mcp-center-ui@^0.2.0"}
 ```
+
+The published name is **`dsh-mcp-center-ui`**: the bare `dsh-mcp-center` on npm belongs to an unrelated project, so this package carries the `-ui` suffix. If you install an older copy from that name, remove it first.
 
 Check the registry first — if nothing is published yet, this path fails with `not-found`. Use the git URL until it is.
 
@@ -150,7 +152,7 @@ The profile `package.json` (under `$DSH_HOME/profiles/<profile>/`) is the record
 
 | Path | `dependencies` entry | Notes |
 |---|---|---|
-| Absolute local path | `"dsh-mcp-center": "link:C:/Users/you/dsh-mcp"` | points at your working tree; nothing is copied or pinned |
+| Absolute local path | `"dsh-mcp-center-ui": "link:C:/Users/you/dsh-mcp"` | points at your working tree; nothing is copied or pinned |
 | Git URL / `github:owner/repo` | a git spec **pinned to the resolved commit**, e.g. `"dsh-startup-screen": "github:6shenhonghong9/dsh-startup-screen#1f35ea33…"` | the spelling follows the spec you passed (`github:…#<sha>`, or a `git+https://…#<ref>` form for URL specs); the ref is always resolved to a commit, so the install is reproducible |
 | Git tag | same git spec, `<ref>`/`<sha>` of that tag | `#v0.1.0` is not a moving target — this is the recommended production shape |
 | Registry | a **version range or exact version**, depending on the spec you passed — `"dsh-free-search": "^0.9.0"` and `"dsh-gitbash-shell": "0.35.1"` are both real examples from this profile | a range follows the registry, an exact version does not |
@@ -199,7 +201,7 @@ Four checks, cheapest first:
    {"action":"list_bundles"}
    ```
 
-   Look for `dsh-mcp-center` with `installed: true`, `enabled: true`.
+   Look for `dsh-mcp-center-ui` with `installed: true`, `enabled: true`.
 
 3. **Sidebar** — the **MCP** entry exists (id `mcp`, order 40, after Plugins / Automations / Skills Center) and shows a page with three tabs.
 4. **HTTP API** — the Host half is answering on the Web GUI's own port:
@@ -216,7 +218,7 @@ A `403` here means the request did not arrive over loopback (or `allowRemote` is
 ## Uninstall and data cleanup
 
 ```json
-{"action":"remove_bundle","target":"dsh-mcp-center"}
+{"action":"remove_bundle","target":"dsh-mcp-center-ui"}
 ```
 
 Or the Plugins page's remove control. That deselects the bundle, unloads its runtime contributions and removes the dependency — including the plugin row and the `mcp` sidebar entry.
