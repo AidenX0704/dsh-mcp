@@ -17,7 +17,7 @@ How `dsh-mcp-center` is put together, and why. Everything described here is what
 
 ```
 ┌────────────────────────────── Browser (Harness Web GUI) ──────────────────────────────┐
-│ client.js  — loaded by window.__ModuleLoader__ as id "dsh-mcp-center"                 │
+│ client.js  — loaded by window.__ModuleLoader__ as id "dsh-mcp-center-ui"              │
 │   slots: sidebar.panellist#mcp (order 40)  +  main[key=mcp]                          │
 │   React from the module table, styling from --dsw-* theme tokens                      │
 │   fetches /api/dsh-mcp-center/state every 6 s, POSTs /action for every mutation       │
@@ -144,6 +144,8 @@ Tool calls made by the plugin (`test`, `call`, Invoke console) go through `ctx.t
 ## Client half
 
 `client.js` is a single `window.__ModuleLoader__.load({ id, factory })` call. The factory receives `require` and takes `react` from the module table; there is no JSX and no bundler, so element construction is `h(...)`.
+
+`id` is not a label the plugin gets to choose: the Host keys each boot-graph row by the package's **resolved name** (`graphRow(packageName, …)`), and the row is satisfied only when a script registers exactly that id. It must therefore equal `package.json` `name` — `dsh-mcp-center-ui`, while the locale namespace and the HTTP route keep the shorter `dsh-mcp-center`. Registering under another id makes the loader treat the row as unregistered, retry it, re-execute the same file and fail the boot with `client-modules: duplicate factory registration`; `test/client-smoke.mjs` asserts the pair.
 
 Inside `apply(ctx)`:
 

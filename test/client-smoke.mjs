@@ -17,6 +17,8 @@ import { fileURLToPath } from 'node:url'
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const REPO = path.resolve(HERE, '..')
 const CLIENT = path.join(REPO, 'client.js')
+/** The id the Host keys this bundle's boot-graph row by: its resolved package name. */
+const PACKAGE_NAME = JSON.parse(fs.readFileSync(path.join(REPO, 'package.json'), 'utf8')).name
 
 let failures = 0
 /** @param {boolean} condition @param {string} label @param {unknown} [detail] */
@@ -132,7 +134,14 @@ globalThis.window = {
 }
 new Function('window', fs.readFileSync(CLIENT, 'utf8'))(globalThis.window)
 check(registered !== null, 'client bundle registers a module factory')
-check(registered?.id === 'dsh-mcp-center', 'module id stays stable across the npm rename', registered?.id)
+// Not a cosmetic id: the Host builds each boot-graph row from the resolved package
+// name, and a row whose script registers anything else is retried, re-executed and
+// killed by the duplicate-registration guard — which fails the whole web boot.
+check(
+  registered?.id === PACKAGE_NAME,
+  'module id equals the package name the Host keys the boot graph by',
+  `registered=${registered?.id} package=${PACKAGE_NAME}`,
+)
 
 const dictionaries = {}
 const localeService = {

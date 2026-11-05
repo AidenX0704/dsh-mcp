@@ -10,8 +10,15 @@
  * Harness Client package is imported; React comes from the module table and all
  * styling uses the host theme tokens.
  */
+// The browser module system keys every plugin bundle by the *resolved package
+// name*: the Host builds each boot-graph row as `graphRow(packageName, …)`, and a
+// row only counts as registered once a script registers that exact id. Registering
+// under any other id leaves the row missing, so the loader falls back to the row's
+// one-resource URL, re-executes this same file, and stops at "client-modules:
+// duplicate factory registration" — which fails the whole web boot. Keep this equal
+// to `package.json` `name`; `test/client-smoke.mjs` asserts the pair.
 window.__ModuleLoader__.load({
-  id: 'dsh-mcp-center',
+  id: 'dsh-mcp-center-ui',
   factory(require) {
     const React = require('react')
     const h = React.createElement
