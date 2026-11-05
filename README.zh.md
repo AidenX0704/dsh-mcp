@@ -1,5 +1,19 @@
 # dsh-mcp-center
 
+> [!WARNING]
+> **本地自用版本，不发布到 npm，也不接受他人安装。**
+> 这个仓库只用于本机 DeepSeek Harness 的自用安装（profile 里记一条 `link:` 本地路径），不发布到 npm
+> 或任何镜像仓库，也请**不要**把它当作公共包安装。
+>
+> 原因：npm 上已有的 `dsh-mcp-center-ui@0.2.0` 带一个会让 **DSH 起不来**的缺陷 —— Client 半把浏览器模块
+> 注册成了 `dsh-mcp-center`，而 Host 是按包名 `dsh-mcp-center-ui` 认领该 bundle 的，于是 loader 重试并二次
+> 执行同一个文件，抛 `client-modules: duplicate factory registration`，Web 端表现是
+> `Failed to load plugins` + `web boot: 1 entry did not activate`，整个 GUI 打不开（崩溃日志见
+> `~/Library/Logs/DeepSeek Harness/crash-*-web-boot.log`）。
+>
+> 该缺陷已在本仓库的 `v0.2.1` 修复，但**不会**回推到 registry。已经装过 0.2.0（或从 registry / 镜像装过
+> 本插件）的机器，请先卸载再换成这里的源码；不要直接把 0.2.0 推给别人用。
+
 把 DeepSeek Harness 里所有 MCP 服务器集中到一页管理：浏览内置市场、手动填写或直接粘贴 `mcpServers` 配置、按「全部会话 / 指定工作区 / 指定会话」限定范围，并选择自动调用或斜杠命令手动调用。
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -22,7 +36,7 @@
 
 ## 安装
 
-本插件是一个 DSH bundle，可以用 DSH 支持的任意 spec 安装（npm 包名、绝对路径、git 地址、`.tgz` 地址）。
+本插件是一个 DSH bundle。**自用版本按绝对路径安装**（profile 里记一条 `link:`，改完即生效、没有发布流程）；git 地址和 `.tgz` 也能用，但**不要用 npm 包名**——registry 上的 `dsh-mcp-center-ui@0.2.0` 会让 DSH 起不来，见顶部警告。
 
 **方式一：插件页面（Web GUI）** —— 侧栏 **插件 / Plugins** → 安装 → 粘贴仓库地址：
 

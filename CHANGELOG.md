@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-05
+
+### Changed
+
+- **The project is now a private, local-only build.** `package.json` carries `"private": true` and
+  no longer declares `publishConfig`, so it cannot be published by accident; the plugin is installed
+  into this machine's DSH profile by absolute path (`link:`) only. README (both languages) and
+  [docs/install.md](docs/install.md) now say so up front, and warn that `dsh-mcp-center-ui@0.2.0` on
+  the registry cannot boot DSH — 0.2.1 is a local fix and is deliberately not pushed to a registry or
+  mirror. Path 6 (npm registry) in the install guide is marked unsupported.
+
+### Fixed
+
+- **The install made DeepSeek Harness unbootable.** `client.js` registered its
+  browser module as `dsh-mcp-center`, but the Host keys every boot-graph row by the
+  package's resolved name (`graphRow(packageName, …)`) — `dsh-mcp-center-ui` since the
+  0.2.0 rename. The row never counted as registered, so the loader retried it,
+  re-executed the same bundle and aborted the page with `client-modules: duplicate
+  factory registration for "dsh-mcp-center"`; the boot audit then reported
+  `web boot: 1 entry did not activate — dsh-mcp-center-ui: import failed` and the Web
+  GUI would not start. The id now equals the package name, and the 0.2.0 claim that
+  the module id could stay `dsh-mcp-center` is corrected. `test/client-smoke.mjs` now
+  asserts `id === package.json name` so a future rename cannot reintroduce this.
+  The locale namespace, `/api/dsh-mcp-center` and `$DSH_HOME/mcp-center` are unchanged.
+
 ## [0.2.0] - 2026-11-04
 
 ### Changed

@@ -2,6 +2,16 @@
 
 `dsh-mcp-center-ui` is a **DSH bundle**: a package that carries a Cordis patch (`cordis.patch.yml`) inserting one Host row, plus an optional Client half that the Web GUI loads at page start. Installation is therefore not a file copy — it is a dependency installed into a **profile** and a bundle selected in that profile's `dsh.profile.bundles` list. Both steps are owned by DSH's Plugin Manager; you never edit the profile by hand.
 
+> [!WARNING]
+> **This is a personal local build, not a published package.** Nothing here is published to npm or a
+> mirror, and the plugin is installed from this checkout by absolute path (`link:`). Path 6 below
+> (npm registry) is therefore not a supported path for this repository, and the
+> `dsh-mcp-center-ui@0.2.0` that does exist on the registry **cannot boot DSH** — its client half
+> registers the browser module under `dsh-mcp-center` while the Host keys the boot-graph row by the
+> package name, which ends in `client-modules: duplicate factory registration` and
+> `web boot: 1 entry did not activate`. Install this checkout instead; the fix ships only here, as
+> `v0.2.1`.
+
 This page documents every supported install path, what each one records, how to verify it, how to remove it, and what the failure codes mean.
 
 - [Prerequisites](#prerequisites)
@@ -131,6 +141,11 @@ Install by absolute path to the `.tgz`:
 A tarball is the only path that works offline once you have the file, which makes it the practical choice for a machine without git or registry access.
 
 ## Path 6 — npm registry
+
+**Not supported here.** This repository is a private, local-only build: `package.json` carries
+`"private": true`, has no `publishConfig`, and is never published — so this path exists only to
+document what the registry holds. What it holds is `0.2.0`, which breaks DSH's boot (see the warning
+at the top).
 
 The package is publishable (`publishConfig.access: public`, `files` and `engines` set, `npm pack` verified), so once a version is published it installs like any other bundling package:
 

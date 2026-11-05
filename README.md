@@ -1,5 +1,22 @@
 # dsh-mcp-center
 
+> [!WARNING]
+> **Personal local build — not published to npm, and not meant for anyone else to install.**
+> This repository is used only to install the plugin into one local DeepSeek Harness profile
+> (a `link:` dependency pointing at this checkout). Nothing here is published to npm or to a
+> mirror, and it must not be installed from one.
+>
+> Why it matters: the `dsh-mcp-center-ui@0.2.0` on the registry cannot boot DSH. Its client half
+> registered the browser module as `dsh-mcp-center`, while the Host claims each bundle's boot-graph
+> row by the package name `dsh-mcp-center-ui`; the row stayed unregistered, the loader retried and
+> executed the same file twice, threw `client-modules: duplicate factory registration`, and the Web
+> GUI died with `Failed to load plugins` / `web boot: 1 entry did not activate` (crash log:
+> `~/Library/Logs/DeepSeek Harness/crash-*-web-boot.log`).
+>
+> That defect is fixed in `v0.2.1` in this repository only — it is **not** being pushed back to the
+> registry. If you already installed 0.2.0 (or installed this plugin from a registry/mirror), remove
+> it first and use this source instead; do not hand 0.2.0 to others.
+
 One page for every MCP server in DeepSeek Harness: browse a curated marketplace, add a server from a manual form or a pasted `mcpServers` block, scope it to all sessions / a workspace / a session, and choose automatic or slash-command invocation.
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -22,7 +39,7 @@ The `license` / `node` / `dsh` / `tests` badges are plain shields.io badges, not
 
 ## Install
 
-The plugin is a DSH bundle. Install it with any spec DSH accepts (npm name, absolute path, git URL, `.tgz` URL).
+The plugin is a DSH bundle. **This local build is installed by absolute path** (recorded as a `link:` dependency, so edits take effect with no release step); a git URL or `.tgz` also works, but never the npm name — `dsh-mcp-center-ui@0.2.0` on the registry keeps DSH from booting (see the warning above).
 
 **1. Plugins page (Web GUI)** — sidebar **Plugins** → install → paste the repository URL:
 
